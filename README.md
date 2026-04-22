@@ -1,37 +1,41 @@
 # US Sportswear Brands Financial Analysis (2015-2024)
 ## ACC102 Mini Assignment - Track 4: Interactive Data Tool
 
-### 1. Project Overview
-This project presents an interactive financial dashboard analyzing six major US sportswear companies: **Nike (NKE), Deckers (DECK), Columbia (COLM), Dick's (DKS), Wolverine (WWW), and Skechers (SKX)**. 
+###1. Problem & User
+This project was created for the ACC102 mini assignment and is designed for instructors, classmates, and other readers who want a quick financial comparison of major US sportswear brands. It asks which firms outperform their peers from 2015 to 2024 and whether ROE is mainly driven by profitability, operating efficiency, or financial leverage.
 
-Using the **DuPont Analysis** framework, this tool visualizes how these industry leaders drive their Return on Equity (ROE) through profit margins, asset efficiency, and financial leverage over a 10-year period (2015-2024).
+###2. Data
+Source: WRDS comp.funda annual financial statement data, extracted in the notebook and exported to full_financial_analysis_2015_2024.xlsx.
+Access date: The original WRDS pull date is not recorded in the notebook; this project file was reviewed on April 22, 2026.
+Companies covered: Nike (NKE), Deckers (DECK), Columbia Sportswear (COLM), Dick's Sporting Goods (DKS), Wolverine World Wide (WWW), and Skechers (SKX).
+Time period: 2015-2024.
+Key fields: Revenue, COGS, Net_Income, Total_Equity, Total_Assets, Gross_Margin, Net_Margin, ROE, Asset_Turnover, Leverage, Revenue_Growth, and NetIncome_Growth.
 
-### 2. Core Chain: From Problem to Insights
-* **The Problem:** In the highly competitive sportswear industry, which financial levers (profitability, efficiency, or leverage) differentiate top-tier brands from their competitors?
-* **The Data:** Ten years of annual financial records (2015-2024) processed into a structured dataset (`full_financial_analysis_2015_2024.xlsx`).
-* **The Methods:** * **Data Processing:** Cleaned and calculated DuPont components using `Pandas`.
-    * **Analysis:** Calculated Year-over-Year (YoY) growth rates and correlation matrices.
-    * **Visualization:** Developed an interactive interface using `Streamlit` with dynamic `Matplotlib` and `Seaborn` charts.
-* **Key Findings:** * **Deckers (DECK)** maintains a premium position with high net margins.
-    * **Dick's Sporting Goods (DKS)** excels in operational efficiency (Asset Turnover).
-    * **Nike (NKE)** shows stable performance but employs a more conservative financial structure compared to smaller peers.
+###3. Methods
+Pulled annual company financial data from WRDS for six selected sportswear companies.
+Cleaned the data by removing duplicates, sorting by ticker and year, and filtering out invalid values.
+Renamed raw variables into readable financial fields and calculated core ratios including gross margin, net margin, ROE, asset turnover, and leverage.
+Applied DuPont analysis using ROE = Net Margin x Asset Turnover x Leverage.
+Calculated year-over-year revenue and net income growth.
+Exported the final analysis table to Excel and built an interactive Streamlit dashboard with line charts, bar charts, and a correlation heatmap.
 
-### 3. File Structure
-* `app.py`: The interactive Streamlit web application.
-* `6_company.ipynb`: Research notebook containing the original data cleaning and analysis logic.
-* `full_financial_analysis_2015_2024.xlsx`: The core financial dataset.
-* `requirements.txt`: Environment dependencies.
+###4. Key Findings
+Nike (NKE) remains the largest company by revenue in 2024 at about USD 46.3 billion, but its 2024 revenue growth turned negative and its leverage stayed more conservative than some peers.
+Deckers (DECK) is the strongest overall profitability leader in the latest year, with the highest 2024 gross margin, ROE, and revenue growth among the six companies.
+Dick's Sporting Goods (DKS) shows strong operating efficiency and consistently high asset turnover, making it one of the most efficient firms in the sample.
+Wolverine World Wide (WWW) carries the highest leverage, which can support ROE but also suggests greater financial risk and more volatile performance.
+Skechers (SKX) stands out for relatively balanced ratios and strong long-run growth, while Columbia (COLM) shows steadier but less aggressive performance.
 
-### 4. How to Run
-1. Install dependencies: `pip install -r requirements.txt`
-2. Launch the app: `streamlit run app.py`
+###5. How to Run
+1. Install dependencies: pip install -r requirements.txt
+2. Make sure full_financial_analysis_2015_2024.xlsx is in the same folder as app.py.
+3. Launch the Streamlit app: streamlit run app.py
+   
+###6. Product Link / Demo
+This project includes a local interactive demo built with Streamlit in app.py. No public deployment link is included in the current project files.
 
-### 5. Professional Practice & AI Disclosure
-* **AI Usage:** I utilized **Doubao (ByteDance AI)** to assist in generating the core logic for the Streamlit dashboard and to debug the data visualization code (specifically the multi-subplot layouts in Matplotlib).
-* **Human Contribution:** I designed the research scope, selected the peer group companies, verified the financial formulas for DuPont Analysis, and provided the final interpretation of the trends.
-* **Limitations:** The dataset is limited to annual public filings and does not account for intra-year seasonal volatility or non-public marketing expenditures.
-
-### 6. Author Information
-* **Name:** Guifen Lai
-* **Major:** Economic and Finance
-* **University:** Xi'an Jiaotong-Liverpool University (XJTLU)
+###7. Limitations & Next Steps
+The analysis uses annual accounting data only, so it does not capture quarterly seasonality, short-term shocks, or intra-year strategy changes.
+The source notebook does not record the original WRDS extraction date, which weakens the metadata quality of the dataset documentation.
+The current dashboard relies on a local Excel file rather than an automated live data pipeline.
+A useful next step would be adding more brands, quarterly data, and stronger company-level narrative interpretation for each chart.
