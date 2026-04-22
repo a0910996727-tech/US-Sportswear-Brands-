@@ -7,22 +7,20 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib.ticker import PercentFormatter
 
-# 页面配置
+
 st.set_page_config(
     page_title="US Sportswear Financial Analysis",
     page_icon="📊",
     layout="wide"
 )
 
-# 全局样式
+
 plt.style.use('seaborn-v0_8-whitegrid')
 sns.set_palette(['#1f77b4','#ff7f0e','#2ca02c','#d62728','#9467bd','#8c564b'])
 st.title("📊 US Sportswear Brands Financial Analysis (2015-2024)")
 st.subheader("ACC102 Track4 | Interactive Data Tool | DuPont Analysis + YoY Growth")
 
-# ----------------------
-# 1. 数据加载（本地Excel，无WRDS依赖）
-# ----------------------
+
 @st.cache_data
 def load_data():
     df = pd.read_excel("full_financial_analysis_2015_2024.xlsx")
@@ -38,9 +36,7 @@ company_dict = {
     'SKX': 'Skechers U.S.A., Inc.'
 }
 
-# ----------------------
-# 2. 侧边栏交互控件
-# ----------------------
+
 st.sidebar.header("⚙️ Control Panel")
 selected_companies = st.sidebar.multiselect(
     "Select Companies",
@@ -53,23 +49,19 @@ selected_indicator = st.sidebar.selectbox(
 )
 year_range = st.sidebar.slider("Year Range", 2015, 2024, (2015, 2024))
 
-# 数据筛选
+
 filtered_df = df[
     (df['Ticker'].isin(selected_companies)) &
     (df['Year'] >= year_range[0]) &
     (df['Year'] <= year_range[1])
 ]
 
-# ----------------------
-# 3. 数据概览面板
-# ----------------------
+
 st.divider()
 st.header("1. Data Overview")
 st.dataframe(filtered_df, use_container_width=True)
 
-# ----------------------
-# 4. 趋势分析（交互式）
-# ----------------------
+
 st.divider()
 st.header(f"2. Trend Analysis: {selected_indicator}")
 fig, ax = plt.subplots(figsize=(12, 5))
@@ -84,33 +76,29 @@ if '%' in selected_indicator or selected_indicator in ['Gross_Margin','Net_Margi
     ax.yaxis.set_major_formatter(PercentFormatter())
 st.pyplot(fig)
 
-# ----------------------
-# 5. 2024 年对比柱状图
-# ----------------------
+
 st.divider()
 st.header("3. 2024 Key Indicators Comparison")
 df_2024 = df[df['Year'] == 2024].copy()
 fig2, axes = plt.subplots(2, 2, figsize=(16, 10))
 
-# 营收
+
 axes[0,0].bar(df_2024['Ticker'], df_2024['Revenue']/1e9, color='#1f77b4')
 axes[0,0].set_title('Total Revenue (Billion USD)')
-# ROE
+
 axes[0,1].bar(df_2024['Ticker'], df_2024['ROE'], color='#ff7f0e')
 axes[0,1].set_title('ROE (%)')
-# 资产周转率
+
 axes[1,0].bar(df_2024['Ticker'], df_2024['Asset_Turnover'], color='#2ca02c')
 axes[1,0].set_title('Asset Turnover')
-# 财务杠杆
+
 axes[1,1].bar(df_2024['Ticker'], df_2024['Leverage'], color='#d62728')
 axes[1,1].set_title('Financial Leverage')
 
 plt.tight_layout()
 st.pyplot(fig2)
 
-# ----------------------
-# 6. 杜邦分析核心结论
-# ----------------------
+
 st.divider()
 st.header("4. DuPont Analysis Key Insights")
 st.markdown("""
@@ -121,9 +109,7 @@ st.markdown("""
 5. **DuPont Formula**: ROE = Net Margin × Asset Turnover × Leverage
 """)
 
-# ----------------------
-# 7. 相关性热力图
-# ----------------------
+
 st.divider()
 st.header("5. Financial Indicators Correlation Heatmap")
 corr_df = df[['Gross_Margin','Net_Margin','ROE','Asset_Turnover','Leverage','Revenue_Growth']].corr()
